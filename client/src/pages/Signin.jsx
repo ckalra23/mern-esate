@@ -10,7 +10,7 @@ export default function Signin() {
   const navigate=useNavigate();
   const handleChange=(e)=>{
     setFormData({
-      ...formdata,
+      ...formdata, 
       [e.target.id]:e.target.value
     })
   }
