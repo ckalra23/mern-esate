@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useRef } from 'react'
 import {getDownloadURL, getStorage,ref, uploadBytesResumable} from 'firebase/storage'
 import{app} from '../firebase'
-import { set } from 'mongoose'
+
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user)
   const fileRef=useRef();
