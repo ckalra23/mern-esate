@@ -1,6 +1,7 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const dotenv=require('dotenv');
+const cookieParser=require('cookie-parser');
 const User=require('./models/user.model');
 const userRouter=require('./routes/user.route')
 const authRouter=require('./routes/auth.route')
@@ -15,6 +16,7 @@ mongoose.connect(process.env.MONGO)
 })
 
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api/user',userRouter)
 app.use('/api/auth',authRouter)
 
