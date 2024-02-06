@@ -57,7 +57,7 @@ const google=async(req,res,next)=>{
         else{
             const generatedPassword=Math.random().toString(36).slice(-8);
             const hashedPassword=bcrpyt.hashSync(generatedPassword,10);
-            const newUser=User.create({
+            const newUser=await User.create({
                 username:req.body.name.split(" ").join("").toLowerCase()+Math.random().toString(36).slice(-4),
                 email:req.body.email,
                 password:hashedPassword,
