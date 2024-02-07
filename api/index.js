@@ -2,9 +2,9 @@ const express=require('express');
 const mongoose=require('mongoose');
 const dotenv=require('dotenv');
 const cookieParser=require('cookie-parser');
-const User=require('./models/user.model');
 const userRouter=require('./routes/user.route')
 const authRouter=require('./routes/auth.route')
+const listRouter=require('./routes/listing.route')
 dotenv.config();
 const app=express();
 mongoose.connect(process.env.MONGO)
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/user',userRouter)
 app.use('/api/auth',authRouter)
-
+app.use('/api/listing',listRouter)
 //middleware
 app.use((err,req,res,next)=>{
     const statusCode=err.statusCode || 500;
