@@ -65,6 +65,7 @@ export default function Profile() {
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message))
+        setUpdateSuccess(false);
         return;
       }
       dispatch(updateUserSuccess(data))
@@ -72,12 +73,13 @@ export default function Profile() {
     }
     catch (error) {
       dispatch(updateUserFailure(error.message));
+      setUpdateSuccess(false);
     }
   }
 
   const handleDelete = async () => {
     try {
-      const confirmed = window.confirm("Are you sure you want to delete this user?");
+      const confirmed = window.confirm("Your account will be deleted.Are you sure?");
       if (!confirmed) {
         return; // User cancelled deletion
       }
@@ -160,8 +162,9 @@ export default function Profile() {
         <span className='text-red-700 cursor-pointer' onClick={handleDelete}>Delete Account</span>
         <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>Sign out</span>
       </div>
+      {error&&<p className='text-red-700 mt-5'>{error}</p>}
       <p className='text-green-700 mt-5'>
-        {updateSuccess ? 'User is updated successfully' : ' '}
+        {updateSuccess ? 'User is updated successfully' : ''}
       </p>
     </div>
   )
