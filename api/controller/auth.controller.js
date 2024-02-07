@@ -33,8 +33,9 @@ const signin = async (req, res, next) => {
         }
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const{password:pass,...rest}=validUser._doc
+        const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
         res.
-            cookie('access_token', token, { httpOnly: true})
+            cookie('access_token', token, { httpOnly: true,expires: expirationDate})
             .status(200).
             json(rest);
     }
@@ -49,8 +50,9 @@ const google=async(req,res,next)=>{
         if(user){
             const token=jwt.sign({id:user._id},process.env.JWT_SECRET)
             const{password:pass,...rest}=user._doc;
+            const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
             res.
-            cookie('access_token',token,{httpOnly:true})
+            cookie('access_token',token,{httpOnly:true,expires:expirationDate})
             .status(200)
             .json(rest);
         }
@@ -65,7 +67,8 @@ const google=async(req,res,next)=>{
             })
             const token=jwt.sign({id:newUser._id},process.env.JWT_SECRET);
             const {password:pass,...rest}=newUser._doc;
-            res.cookie('access_token',token,{httpOnly:true})
+            const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+            res.cookie('access_token',token,{httpOnly:true,expires:expirationDate})
             .status(200)
             .json(rest);
 
