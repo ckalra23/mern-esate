@@ -19,6 +19,7 @@ export default function Profile() {
   const [formData, setFormData] = useState({})
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
+  // console.log(files);
   // console.log(formData);
   useEffect(() => {
     if (files) {
