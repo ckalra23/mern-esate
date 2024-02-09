@@ -22,6 +22,7 @@ export default function Profile() {
   const[showListingError,setShowListingsError]=useState(false);
   const[show,setShow]=useState(false);
   const dispatch = useDispatch();
+
   // console.log(files);
   // console.log(formData);
   // console.log(userListings);
@@ -138,6 +139,23 @@ export default function Profile() {
       setShowListingsError('true');
     }
   }
+  const handleDeleteListing=async(listingId)=>{
+    try{
+     
+      const res=await fetch(`/api/listing/delete/${listingId}`,{
+        method:'DELETE',
+      })
+      const data=await res.json();
+      if(data.success===false){
+        console.log(data.message);
+        return;
+      }
+      setUserListings((prev)=>prev.filter((listing)=>listing._id!==listingId));
+    }
+    catch(error){
+      console.log(error.message);
+    }
+  }
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>
@@ -186,11 +204,12 @@ export default function Profile() {
       <p className='text-green-700 mt-5'>
         {updateSuccess ? 'User is updated successfully' : ''}
       </p>
-      <button className=' w-full' onClick={handleShowListings}>
+      <button className=' w-full mt-5' onClick={handleShowListings}>
         {show?(<span className='text-red-700'>Hide Listing</span>):(<span className='text-green-700'>Show Listing</span>)}
       </button>
-      <p className='text-red-700 mt-5'>{showListingError?'Error showing listings':''}</p>
-      {userListings&&show&&
+      {showListingError&&show?<p className='text-red-700 mt-5 text-center'>Error showing lists</p>:''}
+      {!showListingError && show && userListings.length==0?<p className='text-red-700 mt-5 text-center'>No listing to show at this moment</p>:''}
+      {!showListingError&&userListings&&show&&
       userListings.length>0&&
       <div className='flex flex-col gap-4'>
         <h1 className='text-center mt-7 text-2xl font-semibold'>Your Listings</h1>
@@ -203,12 +222,15 @@ export default function Profile() {
           <p>{listing.name}</p>
         </Link>
         <div className='flex flex-col items-center'>
-          <button className='text-red-700 uppercase text-sm'>Delete</button>
+          <button className='text-red-700 uppercase text-sm' onClick={()=>handleDeleteListing(listing._id)}>
+            Delete
+            </button>
           <button className='text-green-700 uppercase text-sm'>Edit</button>
         </div>
       </div>)}
       </div>
       }
+
     </div>
   )
 }
