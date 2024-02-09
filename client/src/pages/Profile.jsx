@@ -20,10 +20,11 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const[userListings,setUserListings]=useState([]);
   const[showListingError,setShowListingsError]=useState(false);
+  const[show,setShow]=useState(false);
   const dispatch = useDispatch();
   // console.log(files);
   // console.log(formData);
-  console.log(userListings);
+  // console.log(userListings);
   useEffect(() => {
     if (files) {
       handleFileUpload(files);
@@ -124,6 +125,7 @@ export default function Profile() {
   const handleShowListings=async()=>{
     try{
       setShowListingsError(false);
+      setShow((state)=>!state);
       const res=await fetch(`/api/user/listings/${currentUser._id}`);
       const data=await res.json();
       if(data.success===false){
@@ -184,9 +186,11 @@ export default function Profile() {
       <p className='text-green-700 mt-5'>
         {updateSuccess ? 'User is updated successfully' : ''}
       </p>
-      <button className='text-green-700 w-full' onClick={handleShowListings}>Show Listings</button>
+      <button className=' w-full' onClick={handleShowListings}>
+        {show?(<span className='text-red-700'>Hide Listing</span>):(<span className='text-green-700'>Show Listing</span>)}
+      </button>
       <p className='text-red-700 mt-5'>{showListingError?'Error showing listings':''}</p>
-      {userListings&&
+      {userListings&&show&&
       userListings.length>0&&
       <div className='flex flex-col gap-4'>
         <h1 className='text-center mt-7 text-2xl font-semibold'>Your Listings</h1>
