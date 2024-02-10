@@ -141,7 +141,10 @@ export default function Profile() {
   }
   const handleDeleteListing=async(listingId)=>{
     try{
-     
+      const confirmed=window.confirm("Are you sure to delete this listing?");
+      if(!confirmed){
+        return;
+      }
       const res=await fetch(`/api/listing/delete/${listingId}`,{
         method:'DELETE',
       })
@@ -225,7 +228,9 @@ export default function Profile() {
           <button className='text-red-700 uppercase text-sm' onClick={()=>handleDeleteListing(listing._id)}>
             Delete
             </button>
+            <Link to={`/update-listing/${listing._id}`}>
           <button className='text-green-700 uppercase text-sm'>Edit</button>
+            </Link>
         </div>
       </div>)}
       </div>
