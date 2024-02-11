@@ -211,7 +211,7 @@ export default function Profile() {
         {show?(<span className='text-red-700'>Hide Listing</span>):(<span className='text-green-700'>Show Listing</span>)}
       </button>
       {showListingError&&show?<p className='text-red-700 mt-5 text-center'>Error showing lists</p>:''}
-      {!showListingError && show && userListings.length==0?<p className='text-red-700 mt-5 text-center'>No listing to show at this moment</p>:''}
+      {!showListingError && show && userListings.length==0?<p className='text-red-700 mt-5 text-center'>No listings to show</p>:''}
       {!showListingError&&userListings&&show&&
       userListings.length>0&&
       <div className='flex flex-col gap-4'>
