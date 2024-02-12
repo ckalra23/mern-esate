@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
+import{Link} from 'react-router-dom'
 import 'swiper/css/bundle';
 import {
     FaBath,
@@ -22,8 +23,8 @@ export default function Listing() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [copied, setCopied] = useState(false);
-    const[contact,setContact]=useState(false);
-    const {currentUser}=useSelector((state)=>state.user);
+    const [contact, setContact] = useState(false);
+    const { currentUser } = useSelector((state) => state.user);
     useEffect(() => {
         const fetchListing = async () => {
             try {
@@ -35,6 +36,10 @@ export default function Listing() {
                     setLoading(false);
                     return;
                 }
+                const geocodeRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(data.address)}&key=AIzaSyBPzjg4Z8Gud4GobLxCws-rF-pEVEgYu_o`);
+                const geocodeData = await geocodeRes.json();
+                const location = geocodeData.results[0].geometry.location;
+                data.location = location;
                 setListing(data);
                 setLoading(false);
                 setError(false)
@@ -46,6 +51,14 @@ export default function Listing() {
         }
         fetchListing();
     }, [])
+
+    const openGoogleMaps = () => {
+        const latitude = listing.location.lat;
+        const longitude = listing.location.lng;
+        const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        window.open(googleMapsUrl, '_blank');
+    };
+
     return (
         <main>
             {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
@@ -82,10 +95,10 @@ export default function Listing() {
                                 : listing.regularPrice.toLocaleString('en-IN')}
                             {listing.type === 'rent' && ' / month'}
                         </p>
-                        <p className='flex items-center gap-2 text-slate-600  text-sm'>
+                        <Link to="#" className='flex items-center gap-2 text-slate-600 text-sm' onClick={openGoogleMaps}>
                             <FaMapMarkerAlt className='text-green-700' />
                             {listing.address}
-                        </p>
+                        </Link>
                         <div className='flex gap-4'>
                             <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
                                 {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
@@ -122,10 +135,10 @@ export default function Listing() {
                                 {listing.furnished ? 'Furnished' : 'Unfurnished'}
                             </li>
                         </ul>
-                        {currentUser && listing.userRef!==currentUser._id && !contact &&(
-                        <button onClick={()=>setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'>
-                            Contact Landlord
-                        </button>
+                        {currentUser && listing.userRef !== currentUser._id && !contact && (
+                            <button onClick={() => setContact(true)} className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'>
+                                Contact Landlord
+                            </button>
                         )}
                         {contact && <Contact listing={listing} />}
                     </div>
