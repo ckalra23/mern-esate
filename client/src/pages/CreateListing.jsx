@@ -112,6 +112,12 @@ export default function CreateListing() {
         try{
             if(formData.imageUrls.length<1) return setError('You must upload at least 1 image')
             if(+formData.regularPrice <= +formData.discountPrice) return setError('Discount price must be less than Regular price')
+            const apiKey=import.meta.env.VITE_MAP_API_KEY;
+            const geocodeRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(formData.address)}&key=${apiKey}`);
+            const geocodeData = await geocodeRes.json();
+            if(geocodeData.status==='ZERO_RESULTS'){
+                return setError('Enter a valid address');
+            };
             setLoading(true);
             setError(false);
             const res= await fetch('/api/listing/create',{
