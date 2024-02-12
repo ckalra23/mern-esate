@@ -36,7 +36,8 @@ export default function Listing() {
                     setLoading(false);
                     return;
                 }
-                const geocodeRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(data.address)}&key=AIzaSyBPzjg4Z8Gud4GobLxCws-rF-pEVEgYu_o`);
+                const apiKey=import.meta.env.VITE_MAP_API_KEY;
+                const geocodeRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(data.address)}&key=${apiKey}`);
                 const geocodeData = await geocodeRes.json();
                 const location = geocodeData.results[0].geometry.location;
                 data.location = location;
