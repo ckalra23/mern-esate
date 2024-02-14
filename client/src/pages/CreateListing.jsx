@@ -128,6 +128,7 @@ export default function CreateListing() {
                 body:JSON.stringify({
                     ...formData,
                     userRef:currentUser._id,
+                    finalPrice:formData.discountPrice===0?formData.regularPrice:formData.discountPrice
                 })
             });
             const data=await res.json();

@@ -137,8 +137,8 @@ export default function Search() {
                     onChange={handleChange} >
                         <option value={'createdAt_desc'}>Latest</option>
                         <option value={'createdAt_asc'}>Oldest</option>
-                        <option value={'regularPrice_desc'}>Price high to low</option>
-                        <option value={'regularPrice_asc'}>Price low to high</option>
+                        <option value={'finalPrice_desc'}>Price high to low</option>
+                        <option value={'finalPrice_asc'}>Price low to high</option>
                     </select>
                 </div>
                 <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 '>Search</button>
