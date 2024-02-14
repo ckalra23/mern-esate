@@ -190,7 +190,7 @@ export default function Profile() {
           id='email' className='border p-3 rounded-lg' onChange={handleChange} />
         <input type="password" placeholder='password'
           id='password' className='border p-3 rounded-lg' onChange={handleChange} />
-        <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity:95 disabled:opacity-80'>
+        <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>
           {loading ? 'loading' : 'update'}
         </button>
         <Link to={"/create-listing"} className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' >
@@ -211,7 +211,7 @@ export default function Profile() {
         {show?(<span className='text-red-700'>Hide Listing</span>):(<span className='text-green-700'>Show Listing</span>)}
       </button>
       {showListingError&&show?<p className='text-red-700 mt-5 text-center'>Error showing lists</p>:''}
-      {!showListingError && show && userListings.length==0?<p className='text-red-700 mt-5 text-center'>No listings to show</p>:''}
+      {!showListingError && show && userListings.length==0?<p className='text-red-700 mt-5 text-center'>No listing to show</p>:''}
       {!showListingError&&userListings&&show&&
       userListings.length>0&&
       <div className='flex flex-col gap-4'>
