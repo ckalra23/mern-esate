@@ -14,7 +14,6 @@ export default function Search() {
     });
     const[loading,setLoading]=useState(false);
     const[listings,setListings]=useState([]);
-    // console.log(sidebardata);
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);
         const searchTermFromUrl = urlParams.get('searchTerm');
@@ -26,7 +25,7 @@ export default function Search() {
         const orderFromUrl = urlParams.get('order');
     
         if (
-          searchTermFromUrl ||
+          (searchTermFromUrl||searchTermFromUrl==='') ||
           typeFromUrl ||
           parkingFromUrl ||
           furnishedFromUrl ||
@@ -49,13 +48,14 @@ export default function Search() {
             const searchQuery=urlParams.toString();
             const res=await fetch(`/api/listing/get?${searchQuery}`)
             const data=await res.json();
-            console.log(data);
+            // console.log(data);
             setListings(data);
             setLoading(false);
         }
 
         fetchListings();
       }, [location.search]);
+
     const handleChange=(e)=>{
         if(e.target.id==='all'||e.target.id==='rent'||e.target.id==='sale'){
             setSidebardata({...sidebardata,type:e.target.id});

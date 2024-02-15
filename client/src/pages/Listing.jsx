@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
-import{Link} from 'react-router-dom'
+import { Link ,Navigate} from 'react-router-dom'
 import 'swiper/css/bundle';
 import {
     FaBath,
@@ -13,11 +13,13 @@ import {
     FaParking,
     FaShare,
 } from 'react-icons/fa';
+import { MdDelete, MdEdit } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
 export default function Listing() {
     SwiperCore.use([Navigation])
     const params = useParams();
+    const navigate=useNavigate();
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -35,7 +37,7 @@ export default function Listing() {
                     setLoading(false);
                     return;
                 }
-                const apiKey=import.meta.env.VITE_MAP_API_KEY;
+                const apiKey = import.meta.env.VITE_MAP_API_KEY;
                 const geocodeRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(data.address)}&key=${apiKey}`);
                 const geocodeData = await geocodeRes.json();
                 const location = geocodeData.results[0].geometry.location;
@@ -59,6 +61,28 @@ export default function Listing() {
         window.open(googleMapsUrl, '_blank');
     };
 
+    const handleListingDelete = async (listingId) => {
+        const confirmed=window.confirm('Are you sure to delete this listing?')
+        if(!confirmed){
+            return;
+        }
+        try {
+          const res = await fetch(`/api/listing/delete/${listingId}`, {
+            method: 'DELETE',
+          });
+          const data = await res.json();
+          if (data.success === false) {
+            console.log(data.message);
+            return;
+          }
+          navigate('/profile')
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      const handleUpdateListing=()=>{
+        navigate(`/update-listing/${listing._id}`)
+      }
     return (
         <main>
             {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
@@ -88,13 +112,29 @@ export default function Listing() {
                         </p>
                     )}
                     <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
-                        <p className='text-2xl font-semibold'>
-                            {listing.name} - Rs.{' '}
-                            {listing.offer
-                                ? listing.discountPrice.toLocaleString('en-IN')
-                                : listing.regularPrice.toLocaleString('en-IN')}
-                            {listing.type === 'rent' && ' / month'}
-                        </p>
+                        <div className='flex justify-between'>
+                            <p className='text-2xl font-semibold'>
+                                {listing.name} - Rs.{' '}
+                                {listing.offer
+                                    ? listing.discountPrice.toLocaleString('en-IN')
+                                    : listing.regularPrice.toLocaleString('en-IN')}
+                                {listing.type === 'rent' && ' / month'}
+                            </p>
+                            {currentUser && listing.userRef === currentUser._id && (
+                              <p className='flex gap-6 items-center'>
+                                <button
+                                    onClick={() => handleListingDelete(listing._id)}
+                                    className='text-red-700 hover:scale-125'
+                                >
+                                    <MdDelete className='h-6 w-6' />
+                                </button>
+                                
+                                   <button className='text-green-700 hover:scale-125' onClick={handleUpdateListing}>
+                                   <MdEdit className='h-6 w-6' />
+                                   </button>
+                                 </p>
+                            )}
+                        </div>
                         <Link to="#" className='flex items-center gap-2 text-slate-600 text-sm' onClick={openGoogleMaps}>
                             <FaMapMarkerAlt className='text-green-700' />
                             {listing.address}
