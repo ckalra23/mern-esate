@@ -10,9 +10,21 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
+  const[imageListings,setImageListings]=useState([]);
   SwiperCore.use([Navigation,Autoplay]);
   console.log(offerListings);
   useEffect(() => {
+
+    const fetchImageListings = async () => {
+      try {
+        const res = await fetch('/api/listing/get');
+        const data = await res.json();
+        setImageListings(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const fetchOfferListings = async () => {
       try {
         const res = await fetch('/api/listing/get?offer=true&limit=3');
@@ -41,7 +53,8 @@ export default function Home() {
         log(error);
       }
     };
-    fetchOfferListings()
+    fetchImageListings()
+    .then(fetchOfferListings)
     .then(fetchRentListings)
     .then(fetchSaleListings);
   }, []);
@@ -69,10 +82,10 @@ export default function Home() {
       </div>
 
       {/* swiper */}
-      <Swiper navigation autoplay={{ delay: 2000 }}>
-        {offerListings &&
-          offerListings.length > 0 &&
-          offerListings.map((listing) => (
+      <Swiper navigation autoplay={{ delay: 2000 }}  loop={true}>
+        {imageListings &&
+          imageListings.length > 0 &&
+          imageListings.map((listing) => (
             <SwiperSlide key={listing._id}>
               <div
                 style={{
