@@ -14,7 +14,6 @@ import Search from './pages/Search'
 import MyListing from './components/MyListing'
 function App() {
 
-
   return (
     <BrowserRouter>
     <Header />
@@ -32,6 +31,7 @@ function App() {
       <Route path="/update-listing/:listingId" element={<UpdateListing />} />
       </Route>
     </Routes> 
+
     </BrowserRouter>
   )
 }

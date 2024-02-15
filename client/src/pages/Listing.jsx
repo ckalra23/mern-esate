@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore from 'swiper';
-import { Navigation } from 'swiper/modules';
-import { Link ,Navigate} from 'react-router-dom'
+import { Navigation, Autoplay } from 'swiper/modules';
+import { Link } from 'react-router-dom'
 import 'swiper/css/bundle';
 import {
     FaBath,
@@ -17,7 +17,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
 export default function Listing() {
-    SwiperCore.use([Navigation])
+    SwiperCore.use([Navigation,Autoplay])
     const params = useParams();
     const navigate=useNavigate();
     const [listing, setListing] = useState(null);
@@ -89,7 +89,7 @@ export default function Listing() {
             {error && <p className='text-center my-7 text-2xl'>Something went wrong</p>}
             {listing && !loading && !error && (
                 <div>
-                    <Swiper navigation>
+                    <Swiper navigation autoplay={{ delay: 2000 }}>
                         {listing.imageUrls.map((url) => (
                             <SwiperSlide key={url}>
                                 <div className='h-[500px]' style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'cover' }}></div>
@@ -125,11 +125,12 @@ export default function Listing() {
                                 <button
                                     onClick={() => handleListingDelete(listing._id)}
                                     className='text-red-700 hover:scale-125'
+                                    title='Delete'
                                 >
                                     <MdDelete className='h-6 w-6' />
                                 </button>
                                 
-                                   <button className='text-green-700 hover:scale-125' onClick={handleUpdateListing}>
+                                   <button className='text-green-700 hover:scale-125' onClick={handleUpdateListing} title='Edit'>
                                    <MdEdit className='h-6 w-6' />
                                    </button>
                                  </p>

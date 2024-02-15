@@ -190,7 +190,7 @@ export default function Profile() {
       <p className='text-green-700 mt-5'>
         {updateSuccess ? 'User is updated successfully' : ''}
       </p>
-      <button className='block w-full mt-5 text-center' onClick={handleShowListings}>
+      <button className='block w-full mt-5 text-center text-slate-700 font-semibold' onClick={handleShowListings}>
         Show Listings
         {!showListingsError&& isEmptyResponse
         &&(<p className='text-red-700 mt-5'>No Listing to show</p>)}
