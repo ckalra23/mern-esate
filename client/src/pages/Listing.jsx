@@ -16,6 +16,7 @@ import {
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
+
 export default function Listing() {
     SwiperCore.use([Navigation,Autoplay])
     const params = useParams();
@@ -67,10 +68,12 @@ export default function Listing() {
             return;
         }
         try {
+           
           const res = await fetch(`/api/listing/delete/${listingId}`, {
             method: 'DELETE',
           });
           const data = await res.json();
+         
           if (data.success === false) {
             console.log(data.message);
             return;
@@ -181,10 +184,12 @@ export default function Listing() {
                                 Contact Landlord
                             </button>
                         )}
+                        
                         {contact && <Contact listing={listing} />}
                     </div>
                 </div>
             )}
+           
         </main>
     )
 }

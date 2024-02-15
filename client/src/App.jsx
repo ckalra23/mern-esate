@@ -12,6 +12,10 @@ import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
 import MyListing from './components/MyListing'
+import TermsAndConditions from './pages/TermsAndConditions'
+
+
+
 function App() {
 
   return (
@@ -24,6 +28,7 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/search" element={<Search />} />
       <Route path="/listing/:listingId" element={<Listing />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
       <Route element={<PrivateRoute />} >
       <Route path="/profile" element={<Profile />} />
       <Route path="/mylisting" element={<MyListing />} />
@@ -31,7 +36,6 @@ function App() {
       <Route path="/update-listing/:listingId" element={<UpdateListing />} />
       </Route>
     </Routes> 
-
     </BrowserRouter>
   )
 }

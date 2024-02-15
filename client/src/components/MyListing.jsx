@@ -61,9 +61,9 @@ export default function MyListing() {
   };
 
   return (
-    <div className='p-3 sm:p-5'>
+    <div className='p-3 sm:p-10'>
       {loading && (<p>Loading</p>)}
-      {showListingsError && (<p>Something went wrong</p>)}
+      {showListingsError && (<p className='text-red-700 text-center my-10'>Something went wrong</p>)}
       {userListings && userListings.length > 0 && (
         <div className='w-4/5 mx-auto'>
           <h1 className='text-2xl font-semibold my-10 text-slate-700'>

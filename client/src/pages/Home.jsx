@@ -5,12 +5,13 @@ import { Navigation ,Autoplay } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import ListingItem from '../components/ListingItem';
-
+import Footer from '../components/Footer';
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const[imageListings,setImageListings]=useState([]);
+  const [mainContentLoaded, setMainContentLoaded] = useState(false);
   SwiperCore.use([Navigation,Autoplay]);
   console.log(offerListings);
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function Home() {
         const res = await fetch('/api/listing/get?type=rent&limit=3');
         const data = await res.json();
         setRentListings(data);
+        setMainContentLoaded(true);
       } catch (error) {
         console.log(error);
       }
@@ -142,6 +144,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      {mainContentLoaded&&<Footer/>}
     </div>
   );
 }
