@@ -13,10 +13,30 @@ import Listing from './pages/Listing'
 import Search from './pages/Search'
 import MyListing from './components/MyListing'
 import TermsAndConditions from './pages/TermsAndConditions'
-
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { signOutSuccess } from './redux/user/userSlice'
 
 
 function App() {
+  const dispatch=useDispatch();
+  useEffect(()=>{
+    const testing=async()=>{
+      try{
+      const res=await fetch('/api/user/check');
+      const data=await res.json();
+      if(data.success===false){
+        dispatch(signOutSuccess(data.message))
+        return;
+      }
+      }
+      catch(error){
+        dispatch(signOutSuccess(error.message));
+      }
+    }
+    testing();
+  },[])
+  
 
   return (
     <BrowserRouter>

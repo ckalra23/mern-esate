@@ -2,6 +2,7 @@ const errorHandler = require("../utils/error");
 const bcrpyt = require('bcrypt');
 const User=require('../models/user.model')
 const Listing=require('../models/listing.model')
+const jwt=require('jsonwebtoken');
 const test=(req,res)=>{
     res.json({
         message:"Hello world!"
@@ -73,5 +74,14 @@ catch(error){
     return next(error);
 }
 }
-
-module.exports={test,updateUser,deleteUser,getUserListings,getUser};
+const checkMe=async(req,res,next)=>{
+    const token=req.cookies.access_token;
+    if(!token){
+        return next(errorHandler(401,'Unauthorized'))
+    }
+    jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
+        if(err) return next(errorHandler(403,'Forbidden'));
+        res.json({message:'user is verified'});
+    })
+}
+module.exports={test,updateUser,deleteUser,getUserListings,getUser,checkMe};

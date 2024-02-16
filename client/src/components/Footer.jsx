@@ -31,7 +31,7 @@ const Footer = () => {
             <li><p className="hover:text-slate-950">FAQs</p></li>
           </ul>
         </div>
-        <div className="md:col-span-2 lg:col-span-1">
+        <div>
           <h2 className="text-lg font-bold mb-4">Follow Us</h2>
           <ul className="flex space-x-4">
             <li><Link to="https://www.facebook.com/" target='_blank' rel="noopener noreferrer" className="text-slate-700 hover:text-slate-950"><FaFacebook /></Link></li>
