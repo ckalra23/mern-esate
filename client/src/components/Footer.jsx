@@ -12,7 +12,7 @@ const Footer = () => {
             <li className="mb-2"><Link to={"/about"} className="hover:text-slate-950">About Us</Link></li>
             <li className="mb-2"><Link to={"/search"} className="hover:text-slate-950">Properties</Link></li>
             <li className="mb-2"><Link to="https://blog.hubspot.com/sales/real-estate-blogs" target="_blank" rel="noopener noreferrer" className="hover:text-slate-950">Blogs</Link></li>
-            <li><Link to="https://www.moneycontrol.com/real-estate-property/"  target="_blank" rel="noopener noreferrer" className="hover:text-slate-950">What's New</Link></li>
+            <li><Link to="https://www.moneycontrol.com/real-estate-property/"  target="_blank" rel="noopener noreferrer" className="hover:text-slate-950">Whats New</Link></li>
           </ul>
         </div>
         <div>
