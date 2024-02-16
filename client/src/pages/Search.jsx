@@ -57,7 +57,6 @@ export default function Search() {
             else{
                 setShowMore(false);
             }
-            console.log(data);
             setListings(data);
             setLoading(false);
         }

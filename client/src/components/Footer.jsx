@@ -18,7 +18,7 @@ const Footer = () => {
         <div>
           <h2 className="text-lg font-bold mb-4">Contact Info</h2>
           <ul>
-            <li className="mb-2">Address: Crystal Plaza, Mumbai (400053)</li>
+            <li className="mb-2">Address: Crystal Plaza, Mumbai</li>
             <li className="mb-2">Phone: +91 87654 32109</li>
             <li>Email: urban@nest.com</li>
           </ul>

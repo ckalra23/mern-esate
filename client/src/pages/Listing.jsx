@@ -18,9 +18,9 @@ import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
 
 export default function Listing() {
-    SwiperCore.use([Navigation,Autoplay])
+    SwiperCore.use([Navigation, Autoplay])
     const params = useParams();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [listing, setListing] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -63,32 +63,42 @@ export default function Listing() {
     };
 
     const handleListingDelete = async (listingId) => {
-        const confirmed=window.confirm('Are you sure to delete this listing?')
-        if(!confirmed){
+        const confirmed = window.confirm('Are you sure to delete this listing?')
+        if (!confirmed) {
             return;
         }
         try {
-           
-          const res = await fetch(`/api/listing/delete/${listingId}`, {
-            method: 'DELETE',
-          });
-          const data = await res.json();
-         
-          if (data.success === false) {
-            console.log(data.message);
-            return;
-          }
-          navigate('/profile')
+
+            const res = await fetch(`/api/listing/delete/${listingId}`, {
+                method: 'DELETE',
+            });
+            const data = await res.json();
+
+            if (data.success === false) {
+                console.log(data.message);
+                return;
+            }
+            navigate('/profile')
         } catch (error) {
-          console.log(error.message);
+            console.log(error.message);
         }
-      };
-      const handleUpdateListing=()=>{
+    };
+    const handleUpdateListing = () => {
         navigate(`/update-listing/${listing._id}`)
-      }
+    }
     return (
         <main>
-            {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
+            {loading &&
+            <div className='flex items-center justify-center h-screen'>
+                <button type="button" className="bg-slate-800 text-white font-semibold px-4 py-2 rounded-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-center">
+                    <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10" strokeWidth="4" className="opacity-25"></circle>
+                        <path d="M 12 2 L 12 6" strokeLinecap="round" strokeWidth="4" className="text-white"></path>
+                    </svg>
+                    Loading...
+                </button>
+            </div>
+            }
             {error && <p className='text-center my-7 text-2xl'>Something went wrong</p>}
             {listing && !loading && !error && (
                 <div>
@@ -124,19 +134,19 @@ export default function Listing() {
                                 {listing.type === 'rent' && ' / month'}
                             </p>
                             {currentUser && listing.userRef === currentUser._id && (
-                              <p className='flex gap-6 items-center'>
-                                <button
-                                    onClick={() => handleListingDelete(listing._id)}
-                                    className='text-red-700 hover:scale-125'
-                                    title='Delete'
-                                >
-                                    <MdDelete className='h-6 w-6' />
-                                </button>
-                                
-                                   <button className='text-green-700 hover:scale-125' onClick={handleUpdateListing} title='Edit'>
-                                   <MdEdit className='h-6 w-6' />
-                                   </button>
-                                 </p>
+                                <p className='flex gap-6 items-center'>
+                                    <button
+                                        onClick={() => handleListingDelete(listing._id)}
+                                        className='text-red-700 hover:scale-125'
+                                        title='Delete'
+                                    >
+                                        <MdDelete className='h-6 w-6' />
+                                    </button>
+
+                                    <button className='text-green-700 hover:scale-125' onClick={handleUpdateListing} title='Edit'>
+                                        <MdEdit className='h-6 w-6' />
+                                    </button>
+                                </p>
                             )}
                         </div>
                         <Link to="#" className='flex items-center gap-2 text-slate-600 text-sm' onClick={openGoogleMaps}>
@@ -184,12 +194,12 @@ export default function Listing() {
                                 Contact Landlord
                             </button>
                         )}
-                        
+
                         {contact && <Contact listing={listing} />}
                     </div>
                 </div>
             )}
-           
+
         </main>
     )
 }

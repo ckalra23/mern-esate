@@ -13,7 +13,6 @@ export default function Home() {
   const[imageListings,setImageListings]=useState([]);
   const [mainContentLoaded, setMainContentLoaded] = useState(false);
   SwiperCore.use([Navigation,Autoplay]);
-  console.log(offerListings);
   useEffect(() => {
 
     const fetchImageListings = async () => {

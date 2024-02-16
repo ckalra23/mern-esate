@@ -62,7 +62,17 @@ export default function MyListing() {
 
   return (
     <div className='p-3 sm:p-10'>
-      {loading && (<p>Loading</p>)}
+      {loading &&
+        <div className='flex items-center justify-center h-screen'>
+          <button type="button" className="bg-slate-800 text-white font-semibold px-4 py-2 rounded-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-center">
+            <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" strokeWidth="4" className="opacity-25"></circle>
+              <path d="M 12 2 L 12 6" strokeLinecap="round" strokeWidth="4" className="text-white"></path>
+            </svg>
+            Loading...
+          </button>
+        </div>
+      }
       {showListingsError && (<p className='text-red-700 text-center my-10'>Something went wrong</p>)}
       {userListings && userListings.length > 0 && (
         <div className='w-4/5 mx-auto'>
