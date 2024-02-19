@@ -6,8 +6,8 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-      target:'http://localhost:3000',
-      secure:false
+      target:'https://mern-estate-swuu.onrender.com',
+      secure:true
     },
   },
 },
