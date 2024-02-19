@@ -16,6 +16,7 @@ import {
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useSelector } from 'react-redux';
 import Contact from '../components/Contact';
+import { list } from 'firebase/storage';
 
 export default function Listing() {
     SwiperCore.use([Navigation, Autoplay])
@@ -127,10 +128,8 @@ export default function Listing() {
                     <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
                         <div className='flex justify-between'>
                             <p className='text-2xl font-semibold'>
-                                {listing.name} - Rs.{' '}
-                                {listing.offer
-                                    ? listing.finalPrice.toLocaleString('en-IN')
-                                    : listing.regularPrice.toLocaleString('en-IN')}
+                                {listing.name} - &#8377;{' '}
+                                {listing.finalPrice.toLocaleString('en-IN')}
                                 {listing.type === 'rent' && ' / month'}
                             </p>
                             {currentUser && listing.userRef === currentUser._id && (
@@ -157,7 +156,7 @@ export default function Listing() {
                             <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
                                 {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
                             </p>
-                            {listing.offer && (
+                            {listing.offer && listing.discountPrice!==0 && (
                                 <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
                                     Rs.{(+listing.regularPrice - +listing.discountPrice).toLocaleString('en-IN')} OFF
                                 </p>

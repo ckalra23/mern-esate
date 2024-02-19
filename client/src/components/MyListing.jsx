@@ -6,12 +6,14 @@ import {
   FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { MdDelete, MdEdit } from "react-icons/md";
+import Footer from './Footer';
 export default function MyListing() {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [mainContentLoaded, setMainContentLoaded] = useState(false);
   useEffect(() => {
     const handleShowListings = async () => {
       try {
@@ -25,6 +27,7 @@ export default function MyListing() {
           return;
         }
         setLoading(false);
+        setMainContentLoaded(true);
         setUserListings(data);
       } catch (error) {
         setLoading(false);
@@ -61,7 +64,8 @@ export default function MyListing() {
   };
 
   return (
-    <div className='p-3 sm:p-10'>
+    <div>
+    <div className='p-3 sm:p-10 mb-10'>
       {loading &&
         <div className='flex items-center justify-center h-screen'>
           <button type="button" className="bg-slate-800 text-white font-semibold px-4 py-2 rounded-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed text-center">
@@ -75,7 +79,7 @@ export default function MyListing() {
       }
       {showListingsError && (<p className='text-red-700 text-center my-10'>Something went wrong</p>)}
       {userListings && userListings.length > 0 && (
-        <div className='w-4/5 mx-auto'>
+        <div className='w-4/5 h-max mx-auto'>
           <h1 className='text-2xl font-semibold my-10 text-slate-700'>
             Your Listings
           </h1>
@@ -98,7 +102,7 @@ export default function MyListing() {
                       <FaMapMarkerAlt className='text-green-700' />
                       {listing.address}
                     </p>
-                    <p className='text-xs sm:text-lg'>Rs.{listing.finalPrice.toLocaleString('en-IN')}</p>
+                    <p className='text-xs sm:text-lg'>&#8377;{listing.finalPrice.toLocaleString('en-IN')}</p>
                   </div>
                 </Link>
 
@@ -122,6 +126,8 @@ export default function MyListing() {
           </div>
         </div>
       )}
+    </div>
+    {mainContentLoaded&&<Footer/>}
     </div>
   )
 }

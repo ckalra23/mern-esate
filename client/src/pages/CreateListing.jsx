@@ -3,6 +3,7 @@ import { app } from '../firebase'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 export default function CreateListing() {
     const{currentUser}=useSelector((state)=>state.user);
     const navigate=useNavigate();
@@ -86,19 +87,41 @@ export default function CreateListing() {
 
     }
     const handleChange=(e)=>{
+
+        let value = e.target.value;
+    
+        // Trim leading and trailing whitespace for inputs of type 'text' and 'textarea'
+        if (e.target.type === 'text' || e.target.type === 'textarea') {
+            value = value.trimStart();
+        }
+
         if(e.target.id==='sale'||e.target.id==='rent'){
             setFormData({
                 ...formData,
                 type:e.target.id
             })
         }
-        if(e.target.id==='parking'||e.target.id==='furnished'||e.target.id==='offer'){
+        if(e.target.id==='parking'||e.target.id==='furnished'){
             setFormData({
                 ...formData,
                 [e.target.id]:e.target.checked
             })
         }
-        if(e.target.type==='number'||e.target.type=='text'||e.target.type==='textarea'){
+        if (e.target.id === 'offer') {
+            const newValue = e.target.checked ? formData.discountPrice : 0;
+            setFormData({
+                ...formData,
+                [e.target.id]: e.target.checked,
+                discountPrice: newValue
+            });
+        }
+        if(e.target.type=='text'||e.target.type==='textarea'){
+            setFormData({
+                ...formData,
+                [e.target.id]: value
+            })
+        }
+        if(e.target.type==='number'){
             setFormData({
                 ...formData,
                 [e.target.id]:e.target.value
@@ -106,6 +129,7 @@ export default function CreateListing() {
         }
 
     }
+    console.log(formData);
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
@@ -144,9 +168,10 @@ export default function CreateListing() {
             setLoading(false);
         }
     }
-    
+    console.log(formData);
     return (
-        <main className='p-3 max-w-4xl mx-auto'>
+        <div>
+        <main className='p-3 max-w-4xl mx-auto mb-40'>
             <h1 className='text-3xl font-semibold text-center my-7'>Create a Listing</h1>
             <form className='flex flex-col sm:flex-row gap-4' onSubmit={handleSubmit}>
                 <div className='flex flex-col gap-4 flex-1'>
@@ -158,11 +183,11 @@ export default function CreateListing() {
                     onChange={handleChange} value={formData.address}/>
                     <div className='flex gap-6 flex-wrap'>
                         <div className='flex gap-2'>
-                            <input type="checkbox" id='sale' className='w-5' onChange={handleChange} checked={formData.type==='sale'}/>
+                            <input type="radio" id='sale' className='w-5' onChange={handleChange} checked={formData.type==='sale'}/>
                             <span>Sell</span>
                         </div>
                         <div className='flex gap-2'>
-                            <input type="checkbox" id='rent' className='w-5'onChange={handleChange} checked={formData.type==='rent'} />
+                            <input type="radio" id='rent' className='w-5'onChange={handleChange} checked={formData.type==='rent'} />
                             <span>Rent</span>
                         </div>
                         <div className='flex gap-2'>
@@ -194,21 +219,30 @@ export default function CreateListing() {
                         <div className='flex items-center gap-2'>
                             <input type="number" id='regularPrice' min='5000' max='10000000' required
                                 className='p-3 border border-gray-300 rounded-lg'onChange={handleChange} value={formData.regularPrice} />
-                            <div className=" flex flex-col items-center">
-                                <p>Regular price</p>
-                                {formData.type==='rent'&&(
-                                    <span className='text-xs'>(Rs / Month)</span>
+                                {formData.type==='sale'&&(
+                                    <div className='flex flex-col '>
+                                    <p>Sell Price</p>   
+                                    <span> (in &#8377;)</span>
+                                    </div>
                                 )}
-                            </div>
+                                {formData.type==='rent'&&(
+                                   <div className='flex flex-col'>
+                                   <p>Rent Price</p>   
+                                   <span>(&#8377; / month)</span>
+                                   </div>
+                                )}
                         </div>
                         {formData.offer&&(
                         <div className='flex items-center gap-2'>
                             <input type="number" id='discountPrice' min='0' max='10000000' required
                                 className='p-3 border border-gray-300 rounded-lg' onChange={handleChange} value={formData.discountPrice} />
-                            <div className="flex flex-col items-center">
-                                <p>Discount price</p>
+                            <div className="flex flex-col">
+                                <p>Discounted price</p>
                                 {formData.type==='rent'&&(
-                                    <span className='text-xs'>(Rs / Month)</span>
+                                    <span>(&#8377; / month)</span>
+                                )}
+                                {formData.type=='sale'&&(
+                                     <span>(in &#8377;)</span>
                                 )}
                             </div>
                         </div>
@@ -236,7 +270,7 @@ export default function CreateListing() {
                         formData.imageUrls.length > 0 && formData.imageUrls.map((url, index) => (
                             <div key={index} className='flex justify-between p-3 border items-center'>
                                 <img src={url} alt='listing image' className='w-20 h-20 object-contain rounded-lg' />
-                                <button type='button' onClick={()=>{handleRemoveImage(index)}} className='p-3 text-red-700 rounded-lg uppercase hover:opacity-75'>Delete</button>
+                                <button type='button' onClick={()=>{handleRemoveImage(index)}} className='p-3 text-red-700 rounded-lg  hover:opacity-75 text-sm'>Remove</button>
                             </div>
                         ))
                     }
@@ -248,5 +282,7 @@ export default function CreateListing() {
                 </div>
             </form>
         </main>
+        <Footer />
+        </div>
     )
 }

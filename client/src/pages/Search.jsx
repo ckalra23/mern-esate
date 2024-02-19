@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate} from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
-import Footer from '../components/Footer';
+
 export default function Search() {
     const navigate=useNavigate();
     const[sidebardata,setSidebardata]=useState({
@@ -65,11 +65,15 @@ export default function Search() {
       }, [location.search]);
 
     const handleChange=(e)=>{
+        let value=e.target.value
+        if(e.target.id==='searchTerm'){
+            value=value.trimStart();
+        }
         if(e.target.id==='all'||e.target.id==='rent'||e.target.id==='sale'){
             setSidebardata({...sidebardata,type:e.target.id});
         }
         if(e.target.id==='searchTerm'){
-            setSidebardata({...sidebardata,searchTerm:e.target.value});
+            setSidebardata({...sidebardata,searchTerm:value});
         }
         if(e.target.id==='parking'||e.target.id==='furnished'||e.target.id==='offer'){
             setSidebardata({...sidebardata,[e.target.id]:e.target.checked})
@@ -118,21 +122,23 @@ export default function Search() {
                 <div className='flex gap-2 flex-wrap items-center'>
                     <label className='font-semibold'>Type:</label>
                     <div className='flex gap-2'>
-                        <input type="checkbox" id="all" className='w-5'
+                        <input type="radio" id="all" className='w-5'
                         onChange={handleChange} checked={sidebardata.type==='all'} />
                         <span>Rent & Sale</span>
                     </div>
                     <div className='flex gap-2'>
-                        <input type="checkbox" id="rent" className='w-5'
+                        <input type="radio" id="rent" className='w-5'
                         onChange={handleChange} checked={sidebardata.type==='rent'} />
                         <span>Rent</span>
                     </div>
                     <div className='flex gap-2'>
-                        <input type="checkbox" id="sale" className='w-5'
+                        <input type="radio" id="sale" className='w-5'
                         onChange={handleChange} checked={sidebardata.type==='sale'} />
                         <span>Sale</span>
                     </div>
-                    <div className='flex gap-2'>
+                </div>
+                <div>
+                <div className='flex gap-2'>
                         <input type="checkbox" id="offer" className='w-5'
                         onChange={handleChange} checked={sidebardata.offer} />
                         <span>Offer</span>

@@ -53,9 +53,10 @@ export default function Profile() {
     )
   }
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value })
+    let value=e.target.value;
+    setFormData({ ...formData, [e.target.id]: value })
   }
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -123,7 +124,6 @@ export default function Profile() {
       signOutFailure(error.message);
     }
   }
-
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
@@ -155,7 +155,7 @@ export default function Profile() {
           type="file" ref={fileRef} hidden accept='image/*' />
         {/* on clicking the image input is being clicked because fileref.current contains the input that we have stored in fileRef */}
         <img onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.avatar} alt="profile"
+          src={ formData.avatar||currentUser.avatar} alt="profile"
           className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2'
         />
         <p className='text-sm self-center'>
