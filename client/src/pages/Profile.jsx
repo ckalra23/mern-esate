@@ -19,6 +19,7 @@ export default function Profile() {
   const [files, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setfileUploadError] = useState(false)
+  const[passwordError,setPasswordError]=useState(false);
   const [formData, setFormData] = useState({
     username: currentUser.username || '',
     email: currentUser.email,
@@ -67,7 +68,8 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password && formData.password.length < 8) {
-      dispatch(updateUserFailure("Password must be at least 8 characters long"));
+      // dispatch(updateUserFailure("Password must be at least 8 characters long"));
+      setPasswordError(true);
       return;
     }
     try {
@@ -189,7 +191,7 @@ export default function Profile() {
           </p>
           <input placeholder='email' id='email' className='border p-3 rounded-lg' disabled value={formData.email} />
           <input type="text" placeholder='username' id='username' className='border p-3 rounded-lg' onChange={handleChange} value={formData.username} />
-          <input type="password" placeholder='password' id='password' className='border p-3 rounded-lg' onChange={handleChange} value={formData.password}/>
+          <input type="password" placeholder='new password' id='password' className='border p-3 rounded-lg' onChange={handleChange} value={formData.password}/>
           <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>
             {loading ? 'loading' : 'update'}
           </button>
@@ -204,6 +206,7 @@ export default function Profile() {
           <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>Sign out</span>
         </div>
         {error && <p className='text-red-700 mt-5'>{error}</p>}
+        {passwordError&&<p className='text-red-700 mt-5'>Password must be atleast 8 characters long</p>}
         <p className='text-green-700 mt-5'>
           {updateSuccess ? 'User is updated successfully' : ''}
         </p>
