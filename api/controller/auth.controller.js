@@ -35,7 +35,7 @@ const signin = async (req, res, next) => {
         const{password:pass,...rest}=validUser._doc
         const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
         res.
-            cookie('access_token', token, { httpOnly: true,expires: expirationDate})
+            cookie('access_token', token, { httpOnly: true,expires: expirationDate , secure:true})
             .status(200).
             json(rest);
     }
@@ -52,7 +52,7 @@ const google=async(req,res,next)=>{
             const{password:pass,...rest}=user._doc;
             const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
             res.
-            cookie('access_token',token,{httpOnly:true,expires:expirationDate})
+            cookie('access_token',token,{httpOnly:true,expires:expirationDate,secure:true})
             .status(200)
             .json(rest);
         }
@@ -68,7 +68,7 @@ const google=async(req,res,next)=>{
             const token=jwt.sign({id:newUser._id},process.env.JWT_SECRET);
             const {password:pass,...rest}=newUser._doc;
             const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-            res.cookie('access_token',token,{httpOnly:true,expires:expirationDate})
+            res.cookie('access_token',token,{httpOnly:true,expires:expirationDate,secure:true})
             .status(200)
             .json(rest);
 
