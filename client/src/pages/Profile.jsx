@@ -17,14 +17,17 @@ export default function Profile() {
   const [files, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setfileUploadError] = useState(false)
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({
+    username: currentUser.username || '',
+    email: currentUser.email,
+    password: '',
+  })
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const[isEmptyResponse,setIsEmptyResponse]=useState(false);
   const dispatch = useDispatch();
   const navigate=useNavigate();
   // console.log(files);
-  // console.log(formData);
   useEffect(() => {
     if (files) {
       handleFileUpload(files);
@@ -54,6 +57,7 @@ export default function Profile() {
   }
   const handleChange = (e) => {
     let value=e.target.value;
+    value=value.trim();
     setFormData({ ...formData, [e.target.id]: value })
   }
   
@@ -169,12 +173,9 @@ export default function Profile() {
             ""
           )}
         </p>
-        <input type="text" placeholder='username' defaultValue={currentUser.username}
-          id='username' className='border p-3 rounded-lg' onChange={handleChange} />
-        <input type="email" placeholder='email' defaultValue={currentUser.email}
-          id='email' className='border p-3 rounded-lg' onChange={handleChange} />
-        <input type="password" placeholder='password'
-          id='password' className='border p-3 rounded-lg' onChange={handleChange} />
+        <input  placeholder='email' id='email' className='border p-3 rounded-lg' disabled value={formData.email} />
+        <input type="text" placeholder='username' id='username' className='border p-3 rounded-lg' onChange={handleChange} value={formData.username} />
+        <input type="password" placeholder='password' id='password' className='border p-3 rounded-lg' onChange={handleChange} value={formData.password}/>
         <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>
           {loading ? 'loading' : 'update'}
         </button>
