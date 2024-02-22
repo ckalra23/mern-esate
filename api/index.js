@@ -17,7 +17,6 @@ mongoose.connect(process.env.MONGO)
     console.log(err);
 })
 
-const __dirname = path.resolve();
 const app=express();
 app.use(cors());
 app.use(express.json());
