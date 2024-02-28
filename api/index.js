@@ -6,7 +6,7 @@ const userRouter=require('./routes/user.route')
 const authRouter=require('./routes/auth.route')
 const listRouter=require('./routes/listing.route')
 const path=require('path');
-const winston = require('winston');ß
+const winston = require('winston');
 dotenv.config();
 
 const logger = winston.createLogger({
