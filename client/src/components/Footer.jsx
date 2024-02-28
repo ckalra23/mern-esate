@@ -35,8 +35,8 @@ const Footer = () => {
           <h2 className="text-lg font-bold mb-4">Follow Us</h2>
           <ul className="flex space-x-4">
             <li><Link to="https://www.facebook.com/" target='_blank' rel="noopener noreferrer" className="text-slate-700 hover:text-slate-950"><FaFacebook /></Link></li>
-            <li><Link to="https://www.instagram.com/accounts/login/" target='_blank' rel="noopener noreferrer" className="text-slate-700 hover:text-slate-950"><FaTwitter /></Link></li>
-            <li><Link to="https://twitter.com/?lang=en" target='_blank' rel="noopener noreferrer" className="text-slate-700 hover:text-slate-950"><FaInstagram /></Link></li>
+            <li><Link to="https://twitter.com/?lang=en" target='_blank' rel="noopener noreferrer" className="text-slate-700 hover:text-slate-950"><FaTwitter /></Link></li>
+            <li><Link to="https://www.instagram.com/accounts/login/" target='_blank' rel="noopener noreferrer" className="text-slate-700 hover:text-slate-950"><FaInstagram /></Link></li>
           </ul>
           <p className='text-slate-700 my-5'>Follow us on our social media platforms for every latest information </p>
         </div>
