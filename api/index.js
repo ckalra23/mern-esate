@@ -1,6 +1,5 @@
 const express=require('express');
 const mongoose=require('mongoose');
-const cors=require('cors');
 const dotenv=require('dotenv');
 const cookieParser=require('cookie-parser');
 const userRouter=require('./routes/user.route')
@@ -18,7 +17,6 @@ mongoose.connect(process.env.MONGO)
 })
 
 const app=express();
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.listen(3000,()=>{
